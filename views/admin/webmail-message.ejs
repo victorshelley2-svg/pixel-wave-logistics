@@ -1,0 +1,35 @@
+<%- include('../partials/head', { title: 'Message — Pixel Wave Admin' }) %>
+<body class="admin">
+<header class="site-header"><a href="/" class="logo"><span class="logo-mark"></span>PIXEL WAVE <em>LOGISTICS</em></a></header>
+<main>
+  <%- include('nav', { active: 'webmail' }) %>
+  <a href="/admin/webmail?folder=<%= msg.direction %>" style="font-size:13px;opacity:.6;">&larr; Back to <%= msg.direction === 'inbox' ? 'Inbox' : 'Sent' %></a>
+
+  <div class="panel" style="margin-top:16px;">
+    <h2><%= msg.subject %></h2>
+    <p class="sub">
+      <% if (msg.direction === 'inbox') { %>From <%= msg.from_email %><% } else { %>To <%= msg.to_email %><% } %>
+      &middot; <%= new Date(msg.created_at).toLocaleString() %>
+      <% if (msg.related_tracking) { %> &middot; <%= msg.related_tracking %><% } %>
+    </p>
+    <div class="msg-detail"><%= msg.body %></div>
+
+    <% if (sent === 'simulated') { %>
+      <div class="notice simulated">Reply simulated (no RESEND_API_KEY configured) — logged below, not actually delivered.</div>
+    <% } else if (sent === 'sent') { %>
+      <div class="notice sent">Reply sent to <%= msg.from_email %>.</div>
+    <% } else if (sent === 'failed') { %>
+      <div class="notice failed">Reply failed to send. Check your RESEND_API_KEY.</div>
+    <% } %>
+
+    <% if (msg.direction === 'inbox') { %>
+      <h2 style="margin-top:28px;font-size:18px;">Reply</h2>
+      <form method="post" action="/admin/webmail/<%= msg.id %>/reply">
+        <div class="field"><textarea name="body" required placeholder="Write your reply…" style="min-height:120px;"></textarea></div>
+        <div class="form-actions"><button class="btn" type="submit">Send reply</button></div>
+      </form>
+    <% } %>
+  </div>
+</main>
+</body>
+</html>
