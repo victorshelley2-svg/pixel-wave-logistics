@@ -1,0 +1,23 @@
+<%- include('partials/head', { title: 'Pixel Wave Logistics — Freight & Parcel Network' }) %>
+<%- include('partials/header', { active: 'home' }) %>
+
+<div class="hero">
+  <div class="eyebrow">FREIGHT &amp; PARCEL NETWORK</div>
+  <h1>Every shipment,<br>broadcast in real time.</h1>
+  <p class="lede">Pixel Wave Logistics moves freight and parcels across land, sea, and air. Every package carries a live signal, from pickup to the last mile.</p>
+  <div class="signal-track"></div>
+
+  <form class="form-row" action="/track" method="get">
+    <input type="text" name="tn" placeholder="Enter tracking number, e.g. PW-4821-KTQ7" autocomplete="off">
+    <button class="btn" type="submit">Track shipment</button>
+  </form>
+  <div class="hint">Tracking numbers are issued when a shipment is registered by Pixel Wave staff.</div>
+</div>
+
+<div class="stats-row" style="margin-bottom:60px;">
+  <div class="stat" style="background:transparent;border-color:var(--line);"><b style="color:var(--amber);">120+</b><span>Countries served</span></div>
+  <div class="stat" style="background:transparent;border-color:var(--line);"><b style="color:var(--amber);">24/7</b><span>Live tracking</span></div>
+  <div class="stat" style="background:transparent;border-color:var(--line);"><b style="color:var(--amber);">3</b><span>Service tiers</span></div>
+</div>
+
+<%- include('partials/footer') %>
