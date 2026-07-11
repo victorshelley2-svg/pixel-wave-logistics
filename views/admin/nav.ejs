@@ -1,0 +1,11 @@
+<div class="admin-nav">
+  <a href="/admin" class="<%= active === 'dashboard' ? 'active' : '' %>">Dashboard</a>
+  <a href="/admin/register" class="<%= active === 'register' ? 'active' : '' %>">Register shipment</a>
+  <a href="/admin/shipments" class="<%= active === 'shipments' ? 'active' : '' %>">Shipments</a>
+  <a href="/admin/webmail" class="<%= active === 'webmail' ? 'active' : '' %>">
+    Webmail<% if (typeof unread !== 'undefined' && unread > 0) { %><span class="badge"><%= unread %></span><% } %>
+  </a>
+  <form action="/admin/logout" method="post" style="margin-left:auto;">
+    <button class="btn ghost small" type="submit">Log out</button>
+  </form>
+</div>
