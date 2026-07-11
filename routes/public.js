@@ -10,11 +10,9 @@ router.get('/track', (req, res) => {
   let events = [];
 
   if (tn) {
-    shipment = db.prepare('SELECT * FROM shipments WHERE tracking_number = ?').get(tn);
+    shipment = db.getShipmentByTN(tn);
     if (shipment) {
-      events = db.prepare(
-        'SELECT * FROM shipment_events WHERE shipment_id = ? ORDER BY created_at DESC'
-      ).all(shipment.id);
+      events = [...shipment.events].reverse();
     }
   }
 
@@ -29,16 +27,13 @@ router.post('/contact', (req, res) => {
     return res.render('contact', { sent: false, error: 'Please fill in your name, email, and message.' });
   }
 
-  db.prepare(`
-    INSERT INTO messages (direction, from_email, to_email, subject, body, created_at)
-    VALUES ('inbox', ?, ?, ?, ?, ?)
-  `).run(
-    email,
-    process.env.SUPPORT_EMAIL || 'support@pixelwavelogistics.com',
-    subject || `Message from ${name}`,
-    `From: ${name} <${email}>\n\n${message}`,
-    new Date().toISOString()
-  );
+  db.createMessage({
+    direction: 'inbox',
+    from_email: email,
+    to_email: process.env.SUPPORT_EMAIL || 'support@pixelwavelogistics.com',
+    subject: subject || `Message from ${name}`,
+    body: `From: ${name} <${email}>\n\n${message}`
+  });
 
   res.render('contact', { sent: true });
 });
