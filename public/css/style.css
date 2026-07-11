@@ -173,3 +173,20 @@ body.admin .tl-item.old .tl-dot{background:rgba(11,27,43,0.25);}
 .msg-row .m-from{font-weight:600;}
 .msg-row .m-subject{font-size:14px;margin-top:4px;}
 .
+.icon-badge{width:56px;height:56px;border-radius:50%;background:rgba(255,178,56,0.12);display:flex;align-items:center;justify-content:center;color:var(--amber);margin-bottom:16px;}
+.icon-badge svg{width:28px;height:28px;}
+.service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:60px;}
+.service-card{border:1px solid var(--line);border-radius:8px;padding:24px;background:rgba(255,255,255,0.02);}
+.service-card h3{font-family:var(--font-display);font-size:20px;margin:0 0 8px;}
+.service-card p{font-size:14px;opacity:.65;line-height:1.5;margin:0;}
+
+.testimonial-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-bottom:60px;}
+.testimonial-card{border:1px solid var(--line);border-radius:8px;padding:24px;background:rgba(255,255,255,0.02);position:relative;}
+.testimonial-card .quote-mark{font-family:var(--font-display);font-size:40px;color:var(--amber);line-height:1;opacity:.5;margin-bottom:4px;}
+.testimonial-card p.quote{font-size:14px;line-height:1.6;margin:0 0 16px;}
+.testimonial-card .author{font-family:var(--font-mono);font-size:12px;opacity:.6;}
+.testimonial-card .author b{color:var(--paper);opacity:1;display:block;font-family:var(--font-body);font-size:14px;margin-bottom:2px;}
+body.admin .testimonial-card .author b{color:var(--ink);}
+
+.section-title{font-family:var(--font-display);font-weight:700;font-size:28px;margin:0 0 8px;}
+.section-sub{font-size:14px;opacity:.6;margin:0 0 28px;max-width:56ch;}
