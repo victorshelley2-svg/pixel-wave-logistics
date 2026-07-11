@@ -1,0 +1,31 @@
+<%- include('partials/head', { title: 'Contact — Pixel Wave Logistics' }) %>
+<%- include('partials/header', { active: 'contact' }) %>
+
+<div class="hero">
+  <div class="eyebrow">GET IN TOUCH</div>
+  <h1>Contact our team.</h1>
+  <p class="lede">Questions about a shipment, a quote, or anything else &mdash; send us a message and we'll follow up by email.</p>
+</div>
+
+<% if (typeof sent !== 'undefined' && sent) { %>
+  <div class="card" style="padding:24px;">
+    <div class="success-note" style="display:block;">Your message has been sent to our team. We'll reply to the email you provided.</div>
+  </div>
+<% } else { %>
+  <div class="card" style="padding:24px;">
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="notice failed" style="margin-bottom:16px;"><%= error %></div>
+    <% } %>
+    <form action="/contact" method="post">
+      <div class="form-grid">
+        <div class="field"><label>Your name</label><input required name="name" placeholder="Jordan Ma"></div>
+        <div class="field"><label>Your email</label><input required type="email" name="email" placeholder="you@example.com"></div>
+        <div class="field full"><label>Subject</label><input name="subject" placeholder="Question about a shipment"></div>
+        <div class="field full"><label>Message</label><textarea required name="message" placeholder="How can we help?"></textarea></div>
+      </div>
+      <div class="form-actions"><button class="btn" type="submit">Send message</button></div>
+    </form>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>
