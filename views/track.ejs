@@ -1,0 +1,52 @@
+<%- include('partials/head', { title: tn ? tn + ' — Pixel Wave Logistics' : 'Track — Pixel Wave Logistics' }) %>
+<%- include('partials/header', { active: 'track' }) %>
+
+<div class="hero">
+  <div class="eyebrow">LIVE SHIPMENT SIGNAL</div>
+  <h1>Track your shipment.</h1>
+  <p class="lede">Enter your tracking number to see its current status and full history.</p>
+  <div class="signal-track"></div>
+
+  <form class="form-row" action="/track" method="get">
+    <input type="text" name="tn" placeholder="e.g. PW-4821-KTQ7" value="<%= tn || '' %>" autocomplete="off">
+    <button class="btn" type="submit">Track</button>
+  </form>
+</div>
+
+<% if (notFound) { %>
+  <div class="not-found">NO SIGNAL &mdash; we couldn't find a shipment matching <strong><%= tn %></strong>. Check the tracking number and try again.</div>
+<% } %>
+
+<% if (shipment) { %>
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="tn"><%= shipment.tracking_number %></div>
+        <div class="route"><%= shipment.origin %> &rarr; <%= shipment.destination %></div>
+      </div>
+      <span class="pill <%= shipment.status.toLowerCase().replace(/\s+/g,'-') %>"><%= shipment.status %></span>
+    </div>
+    <div class="meta-grid">
+      <div><span>Sender</span><%= shipment.sender_name %></div>
+      <div><span>Receiver</span><%= shipment.receiver_name %></div>
+      <div><span>Service</span><%= shipment.service || '—' %></div>
+      <div><span>Weight</span><%= shipment.weight ? shipment.weight + ' kg' : '—' %></div>
+      <div><span>Est. delivery</span><%= shipment.eta || '—' %></div>
+    </div>
+    <div class="timeline">
+      <h3>Shipment history</h3>
+      <% events.forEach((h, i) => { %>
+        <div class="tl-item <%= i === 0 ? '' : 'old' %>">
+          <div class="tl-dot"></div>
+          <div class="tl-body">
+            <b><%= h.status %></b>
+            <div class="tl-meta"><%= new Date(h.created_at).toLocaleString() %> &middot; <%= h.location %></div>
+            <% if (h.note) { %><div class="tl-note"><%= h.note %></div><% } %>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+<% } %>
+
+<%- include('partials/footer') %>
