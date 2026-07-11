@@ -1,0 +1,31 @@
+<%- include('../partials/head', { title: 'Shipments — Pixel Wave Admin' }) %>
+<body class="admin">
+<header class="site-header"><a href="/" class="logo"><span class="logo-mark"></span>PIXEL WAVE <em>LOGISTICS</em></a></header>
+<main>
+  <%- include('nav', { active: 'shipments' }) %>
+  <h1 style="font-size:32px;">All shipments</h1>
+  <p class="lede">Click a shipment to update its status.</p>
+
+  <div class="panel">
+    <form class="search-row" method="get" action="/admin/shipments">
+      <input name="q" value="<%= q || '' %>" placeholder="Filter by tracking number, sender, or receiver">
+      <button class="btn small" type="submit">Filter</button>
+    </form>
+
+    <% if (rows.length === 0) { %>
+      <div class="empty-state">No shipments match.</div>
+    <% } else { %>
+      <% rows.forEach(p => { %>
+        <a class="pkg-row" href="/admin/shipments/<%= p.tracking_number %>" style="text-decoration:none;color:inherit;">
+          <div class="pkg-row-left">
+            <b><%= p.tracking_number %></b>
+            <small><%= p.sender_name %> &rarr; <%= p.receiver_name %> &middot; <%= p.origin %> &rarr; <%= p.destination %></small>
+          </div>
+          <span class="pill <%= p.status.toLowerCase().replace(/\s+/g,'-') %>"><%= p.status %></span>
+        </a>
+      <% }) %>
+    <% } %>
+  </div>
+</main>
+</body>
+</html>
