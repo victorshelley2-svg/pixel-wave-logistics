@@ -1,0 +1,36 @@
+<%- include('../partials/head', { title: 'Webmail — Pixel Wave Admin' }) %>
+<body class="admin">
+<header class="site-header"><a href="/" class="logo"><span class="logo-mark"></span>PIXEL WAVE <em>LOGISTICS</em></a></header>
+<main>
+  <%- include('nav', { active: 'webmail' }) %>
+  <h1 style="font-size:32px;">Webmail</h1>
+  <p class="lede">Customer inquiries and outbound notifications, in one place.</p>
+
+  <% if (!process.env.RESEND_API_KEY) { %>
+    <div class="simulated-banner">Running in simulated mode: no RESEND_API_KEY is set, so outbound mail is logged here but not actually delivered. Add a key in <code>.env</code> to send for real.</div>
+  <% } %>
+
+  <div class="admin-nav" style="margin-top:0;">
+    <a href="/admin/webmail?folder=inbox" class="<%= folder === 'inbox' ? 'active' : '' %>">Inbox</a>
+    <a href="/admin/webmail?folder=sent" class="<%= folder === 'sent' ? 'active' : '' %>">Sent</a>
+  </div>
+
+  <div class="panel">
+    <% if (rows.length === 0) { %>
+      <div class="empty-state">Nothing here yet.</div>
+    <% } else { %>
+      <% rows.forEach(m => { %>
+        <a class="msg-row <%= (folder==='inbox' && !m.is_read) ? 'unread' : '' %>" href="/admin/webmail/<%= m.id %>" style="text-decoration:none;color:inherit;">
+          <div class="m-top">
+            <span class="m-from"><%= folder === 'inbox' ? m.from_email : ('To: ' + m.to_email) %></span>
+            <span style="opacity:.5;font-family:var(--font-mono);"><%= new Date(m.created_at).toLocaleString() %></span>
+          </div>
+          <div class="m-subject"><%= m.subject %><% if (m.related_tracking) { %> <span style="opacity:.5;font-weight:400;">&middot; <%= m.related_tracking %></span><% } %></div>
+          <div class="m-snippet"><%= m.body.slice(0, 90).replace(/\n/g,' ') %><%= m.body.length > 90 ? '…' : '' %></div>
+        </a>
+      <% }) %>
+    <% } %>
+  </div>
+</main>
+</body>
+</html>
