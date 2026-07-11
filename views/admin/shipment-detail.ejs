@@ -1,0 +1,68 @@
+<%- include('../partials/head', { title: shipment.tracking_number + ' — Pixel Wave Admin' }) %>
+<body class="admin">
+<header class="site-header"><a href="/" class="logo"><span class="logo-mark"></span>PIXEL WAVE <em>LOGISTICS</em></a></header>
+<main>
+  <%- include('nav', { active: 'shipments' }) %>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="tn"><%= shipment.tracking_number %></div>
+        <div class="route"><%= shipment.origin %> &rarr; <%= shipment.destination %></div>
+      </div>
+      <span class="pill <%= shipment.status.toLowerCase().replace(/\s+/g,'-') %>"><%= shipment.status %></span>
+    </div>
+    <div class="meta-grid">
+      <div><span>Sender</span><%= shipment.sender_name %><br><small><%= shipment.sender_email || '—' %></small></div>
+      <div><span>Receiver</span><%= shipment.receiver_name %><br><small><%= shipment.receiver_email || '—' %></small></div>
+      <div><span>Service</span><%= shipment.service || '—' %></div>
+      <div><span>Weight</span><%= shipment.weight ? shipment.weight + ' kg' : '—' %></div>
+      <div><span>Est. delivery</span><%= shipment.eta || '—' %></div>
+    </div>
+    <div class="timeline">
+      <h3>Shipment history</h3>
+      <% events.forEach((h, i) => { %>
+        <div class="tl-item <%= i === 0 ? '' : 'old' %>">
+          <div class="tl-dot"></div>
+          <div class="tl-body">
+            <b><%= h.status %></b>
+            <div class="tl-meta"><%= new Date(h.created_at).toLocaleString() %> &middot; <%= h.location %></div>
+            <% if (h.note) { %><div class="tl-note"><%= h.note %></div><% } %>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Log an update</h2>
+    <p class="sub"><% if (shipment.receiver_email) { %>Will notify <%= shipment.receiver_email %> by email.<% } else { %>No receiver email on file — no notification will be sent.<% } %></p>
+    <form method="post" action="/admin/shipments/<%= shipment.tracking_number %>/update">
+      <div class="form-grid">
+        <div class="field">
+          <label>New status</label>
+          <select name="status">
+            <% STATUS_OPTIONS.forEach(s => { %><option <%= s === shipment.status ? 'selected' : '' %>><%= s %></option><% }) %>
+          </select>
+        </div>
+        <div class="field"><label>Location</label><input name="location" placeholder="e.g. Memphis, TN hub"></div>
+        <div class="field full"><label>Note (optional)</label><textarea name="note" placeholder="Cleared customs, moving to next facility"></textarea></div>
+      </div>
+      <div class="form-actions"><button class="btn" type="submit">Log update</button></div>
+    </form>
+
+    <% if (emailStatus === 'simulated') { %>
+      <div class="notice simulated">Notification email simulated (no RESEND_API_KEY configured) — logged in Webmail &rarr; Sent, not actually delivered.</div>
+    <% } else if (emailStatus === 'sent') { %>
+      <div class="notice sent">Notification email sent to <%= shipment.receiver_email %>.</div>
+    <% } else if (emailStatus === 'failed') { %>
+      <div class="notice failed">Notification email failed to send. Check your RESEND_API_KEY.</div>
+    <% } %>
+
+    <form method="post" action="/admin/shipments/<%= shipment.tracking_number %>/delete" style="margin-top:20px;" onsubmit="return confirm('Delete this shipment? This cannot be undone.');">
+      <button class="btn danger small" type="submit">Delete shipment</button>
+    </form>
+  </div>
+</main>
+</body>
+</html>
