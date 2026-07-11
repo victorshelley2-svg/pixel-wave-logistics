@@ -16,7 +16,6 @@ function genTrackingNumber() {
   return `PW-${digits}-${letters}`;
 }
 
-// ---- auth ----
 router.get('/login', (req, res) => res.render('admin/login', { error: null }));
 
 router.post('/login', (req, res) => {
@@ -34,81 +33,41 @@ router.post('/logout', (req, res) => {
 
 router.use(requireAdmin);
 
-// ---- dashboard ----
 router.get('/', (req, res) => {
-  const total = db.prepare('SELECT COUNT(*) c FROM shipments').get().c;
-  const inTransit = db.prepare(`SELECT COUNT(*) c FROM shipments WHERE status IN ('In Transit','Out for Delivery')`).get().c;
-  const delivered = db.prepare(`SELECT COUNT(*) c FROM shipments WHERE status = 'Delivered'`).get().c;
-  const flagged = db.prepare(`SELECT COUNT(*) c FROM shipments WHERE status IN ('Delayed','Exception')`).get().c;
-  const unread = db.prepare(`SELECT COUNT(*) c FROM messages WHERE direction='inbox' AND is_read=0`).get().c;
-  const recent = db.prepare('SELECT * FROM shipments ORDER BY created_at DESC LIMIT 5').all();
+  const { total, inTransit, delivered, flagged } = db.getStats();
+  const unread = db.getUnreadCount();
+  const recent = db.getAllShipments().slice(0, 5);
   res.render('admin/dashboard', { total, inTransit, delivered, flagged, unread, recent });
 });
 
-// ---- register ----
 router.get('/register', (req, res) => res.render('admin/register', { created: null }));
 
 router.post('/register', (req, res) => {
-  const {
-    sender_name, sender_email, receiver_name, receiver_email,
-    origin, destination, weight, service, eta, notes
-  } = req.body;
-
   const tn = genTrackingNumber();
-  const now = new Date().toISOString();
-
-  const info = db.prepare(`
-    INSERT INTO shipments
-      (tracking_number, sender_name, sender_email, receiver_name, receiver_email,
-       origin, destination, weight, service, eta, status, notes, created_at)
-    VALUES (?,?,?,?,?,?,?,?,?,?, 'Registered', ?, ?)
-  `).run(tn, sender_name, sender_email, receiver_name, receiver_email,
-         origin, destination, weight || null, service, eta || null, notes || '', now);
-
-  db.prepare(`
-    INSERT INTO shipment_events (shipment_id, status, location, note, created_at)
-    VALUES (?, 'Registered', ?, ?, ?)
-  `).run(info.lastInsertRowid, origin, notes || '', now);
-
+  db.createShipment({ ...req.body, tracking_number: tn });
   res.render('admin/register', { created: tn });
 });
 
-// ---- shipment list / detail / update ----
 router.get('/shipments', (req, res) => {
   const q = (req.query.q || '').trim();
-  let rows;
-  if (q) {
-    const like = `%${q}%`;
-    rows = db.prepare(`
-      SELECT * FROM shipments
-      WHERE tracking_number LIKE ? OR sender_name LIKE ? OR receiver_name LIKE ?
-      ORDER BY created_at DESC
-    `).all(like, like, like);
-  } else {
-    rows = db.prepare('SELECT * FROM shipments ORDER BY created_at DESC').all();
-  }
+  const rows = q ? db.searchShipments(q) : db.getAllShipments();
   res.render('admin/shipments', { rows, q });
 });
 
 router.get('/shipments/:tn', (req, res) => {
-  const shipment = db.prepare('SELECT * FROM shipments WHERE tracking_number = ?').get(req.params.tn.toUpperCase());
+  const shipment = db.getShipmentByTN(req.params.tn.toUpperCase());
   if (!shipment) return res.redirect('/admin/shipments');
-  const events = db.prepare('SELECT * FROM shipment_events WHERE shipment_id = ? ORDER BY created_at DESC').all(shipment.id);
+  const events = [...shipment.events].reverse();
   res.render('admin/shipment-detail', { shipment, events, STATUS_OPTIONS, emailStatus: null });
 });
 
 router.post('/shipments/:tn/update', async (req, res) => {
-  const shipment = db.prepare('SELECT * FROM shipments WHERE tracking_number = ?').get(req.params.tn.toUpperCase());
-  if (!shipment) return res.redirect('/admin/shipments');
+  const tn = req.params.tn.toUpperCase();
+  const existing = db.getShipmentByTN(tn);
+  if (!existing) return res.redirect('/admin/shipments');
 
   const { status, location, note } = req.body;
-  const now = new Date().toISOString();
-
-  db.prepare('UPDATE shipments SET status = ? WHERE id = ?').run(status, shipment.id);
-  db.prepare(`
-    INSERT INTO shipment_events (shipment_id, status, location, note, created_at)
-    VALUES (?, ?, ?, ?, ?)
-  `).run(shipment.id, status, location || shipment.destination, note || '', now);
+  const shipment = db.addShipmentEvent(tn, { status, location, note });
 
   let emailStatus = null;
   if (shipment.receiver_email) {
@@ -130,47 +89,44 @@ Track it anytime: /track?tn=${shipment.tracking_number}
       text
     });
 
-    db.prepare(`
-      INSERT INTO messages (direction, from_email, to_email, subject, body, related_tracking, created_at)
-      VALUES ('sent', ?, ?, ?, ?, ?, ?)
-    `).run(process.env.FROM_EMAIL || 'notifications@pixelwavelogistics.com',
-           shipment.receiver_email, subject, text, shipment.tracking_number, now);
+    db.createMessage({
+      direction: 'sent',
+      from_email: process.env.FROM_EMAIL || 'notifications@pixelwavelogistics.com',
+      to_email: shipment.receiver_email,
+      subject,
+      body: text,
+      related_tracking: shipment.tracking_number
+    });
 
     emailStatus = result.simulated ? 'simulated' : (result.ok ? 'sent' : 'failed');
   }
 
-  const events = db.prepare('SELECT * FROM shipment_events WHERE shipment_id = ? ORDER BY created_at DESC').all(shipment.id);
-  const updated = db.prepare('SELECT * FROM shipments WHERE id = ?').get(shipment.id);
-  res.render('admin/shipment-detail', { shipment: updated, events, STATUS_OPTIONS, emailStatus });
+  const events = [...shipment.events].reverse();
+  res.render('admin/shipment-detail', { shipment, events, STATUS_OPTIONS, emailStatus });
 });
 
 router.post('/shipments/:tn/delete', (req, res) => {
-  const shipment = db.prepare('SELECT * FROM shipments WHERE tracking_number = ?').get(req.params.tn.toUpperCase());
-  if (shipment) {
-    db.prepare('DELETE FROM shipment_events WHERE shipment_id = ?').run(shipment.id);
-    db.prepare('DELETE FROM shipments WHERE id = ?').run(shipment.id);
-  }
+  db.deleteShipment(req.params.tn.toUpperCase());
   res.redirect('/admin/shipments');
 });
 
-// ---- webmail ----
 router.get('/webmail', (req, res) => {
   const folder = req.query.folder === 'sent' ? 'sent' : 'inbox';
-  const rows = db.prepare('SELECT * FROM messages WHERE direction = ? ORDER BY created_at DESC').all(folder);
+  const rows = db.getMessages(folder);
   res.render('admin/webmail', { rows, folder });
 });
 
 router.get('/webmail/:id', (req, res) => {
-  const msg = db.prepare('SELECT * FROM messages WHERE id = ?').get(req.params.id);
+  const msg = db.getMessageById(req.params.id);
   if (!msg) return res.redirect('/admin/webmail');
   if (msg.direction === 'inbox' && !msg.is_read) {
-    db.prepare('UPDATE messages SET is_read = 1 WHERE id = ?').run(msg.id);
+    db.markMessageRead(msg.id);
   }
   res.render('admin/webmail-message', { msg, sent: null });
 });
 
 router.post('/webmail/:id/reply', async (req, res) => {
-  const msg = db.prepare('SELECT * FROM messages WHERE id = ?').get(req.params.id);
+  const msg = db.getMessageById(req.params.id);
   if (!msg) return res.redirect('/admin/webmail');
 
   const { body } = req.body;
@@ -178,12 +134,8 @@ router.post('/webmail/:id/reply', async (req, res) => {
   const from = process.env.SUPPORT_EMAIL || 'support@pixelwavelogistics.com';
 
   const result = await sendEmail({ to: msg.from_email, from, subject, text: body });
-  const now = new Date().toISOString();
 
-  db.prepare(`
-    INSERT INTO messages (direction, from_email, to_email, subject, body, created_at)
-    VALUES ('sent', ?, ?, ?, ?, ?)
-  `).run(from, msg.from_email, subject, body, now);
+  db.createMessage({ direction: 'sent', from_email: from, to_email: msg.from_email, subject, body });
 
   res.render('admin/webmail-message', { msg, sent: result.simulated ? 'simulated' : (result.ok ? 'sent' : 'failed') });
 });
