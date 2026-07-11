@@ -1,0 +1,36 @@
+<%- include('../partials/head', { title: 'Dashboard — Pixel Wave Admin' }) %>
+<body class="admin">
+<header class="site-header"><a href="/" class="logo"><span class="logo-mark"></span>PIXEL WAVE <em>LOGISTICS</em></a></header>
+<main>
+  <%- include('nav', { active: 'dashboard', unread }) %>
+  <div class="eyebrow">STAFF DASHBOARD</div>
+  <h1 style="font-size:32px;">Shipment control</h1>
+  <p class="lede">Register shipments, post updates, and manage customer mail.</p>
+
+  <div class="stats-row">
+    <div class="stat"><b><%= total %></b><span>Total shipments</span></div>
+    <div class="stat"><b><%= inTransit %></b><span>In transit</span></div>
+    <div class="stat"><b><%= delivered %></b><span>Delivered</span></div>
+    <div class="stat"><b><%= flagged %></b><span>Delayed / exception</span></div>
+  </div>
+
+  <div class="panel">
+    <h2>Recent shipments</h2>
+    <p class="sub">The last 5 registered.</p>
+    <% if (recent.length === 0) { %>
+      <div class="empty-state">No shipments yet. <a href="/admin/register" style="color:var(--amber-dim);">Register the first one</a>.</div>
+    <% } else { %>
+      <% recent.forEach(p => { %>
+        <a class="pkg-row" href="/admin/shipments/<%= p.tracking_number %>" style="text-decoration:none;color:inherit;">
+          <div class="pkg-row-left">
+            <b><%= p.tracking_number %></b>
+            <small><%= p.sender_name %> &rarr; <%= p.receiver_name %> &middot; <%= p.origin %> &rarr; <%= p.destination %></small>
+          </div>
+          <span class="pill <%= p.status.toLowerCase().replace(/\s+/g,'-') %>"><%= p.status %></span>
+        </a>
+      <% }) %>
+    <% } %>
+  </div>
+</main>
+</body>
+</html>
