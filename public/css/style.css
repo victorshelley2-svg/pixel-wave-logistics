@@ -191,3 +191,14 @@ body.admin .testimonial-card .author b{color:var(--ink);}
 .section-title{font-family:var(--font-display);font-weight:700;font-size:28px;margin:0 0 8px;}
 .section-sub{font-size:14px;opacity:.6;margin:0 0 28px;max-width:56ch;}
 .service-photo{width:100%;height:160px;border-radius:6px;background-size:cover;background-position:center;margin-bottom:16px;border:1px solid var(--line);filter:saturate(0.9) brightness(0.92);}
+.footer-full{border-top:1px solid var(--line);margin-top:40px;}
+.footer-top{max-width:920px;margin:0 auto;padding:48px 24px 32px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:32px;}
+@media(max-width:700px){.footer-top{grid-template-columns:1fr 1fr;}}
+.footer-col h4{font-family:var(--font-mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;opacity:.5;margin:0 0 14px;}
+.footer-col a, .footer-col span.plain{display:block;font-size:14px;opacity:.75;margin-bottom:10px;}
+.footer-col a:hover{opacity:1;color:var(--amber);}
+.footer-brand .logo{margin-bottom:6px;}
+.footer-brand p{font-size:13px;opacity:.55;line-height:1.5;margin-top:10px;max-width:26ch;}
+.footer-contact-item{display:flex;align-items:center;gap:8px;font-size:13px;opacity:.75;margin-bottom:10px;}
+.footer-contact-item svg{width:15px;height:15px;flex:none;color:var(--amber);}
+.footer-bottom{border-top:1px solid var(--line);padding:18px 24px;text-align:center;font-family:var(--font-mono);font-size:11px;opacity:.4;letter-spacing:1px;}
