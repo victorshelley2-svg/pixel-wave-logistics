@@ -70,7 +70,7 @@ router.post('/shipments/:tn/update', async (req, res) => {
   const { status, location, note, event_time } = req.body;
   const timestamp = event_time ? new Date(event_time).toISOString() : new Date().toISOString();
   const shipment = db.addShipmentEvent(tn, { status, location, note, timestamp });
-
+if (!shipment) return res.redirect('/admin/shipments');
   let emailStatus = null;
   if (shipment.receiver_email) {
     const subject = `Your shipment ${shipment.tracking_number} is now ${status}`;
