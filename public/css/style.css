@@ -185,3 +185,13 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 .footer-contact-item{display:flex;align-items:center;gap:8px;font-size:13px;opacity:.75;margin-bottom:10px;}
 .footer-contact-item svg{width:15px;height:15px;flex:none;color:var(--blue);}
 .footer-bottom{border-top:1px solid var(--line);padding:18px 24px;text-align:center;font-family:var(--font-mono);font-size:11px;opacity:.45;letter-spacing:1px;}
+.hero-photo{position:relative;background-size:cover;background-position:center;border-radius:12px;padding:60px 28px;overflow:hidden;color:#fff;margin-top:20px;}
+.hero-photo::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,24,40,0.55),rgba(16,24,40,0.78));z-index:0;}
+.hero-photo > *{position:relative;z-index:1;}
+.hero-photo .eyebrow{color:#93C5FD;}
+.hero-photo h1{color:#fff;}
+.hero-photo .lede{color:rgba(255,255,255,0.85);}
+.hero-photo .hint{color:rgba(255,255,255,0.6);}
+.hero-photo .signal-track{background:rgba(255,255,255,0.25);}
+.hero-photo .form-row{background:#fff;border:none;padding:12px;box-shadow:0 12px 32px rgba(16,24,40,0.3);}
+.hero-photo .form-row input{color:var(--ink);}
