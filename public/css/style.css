@@ -196,3 +196,8 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 .hero-photo .signal-track{background:rgba(255,255,255,0.25);}
 .hero-photo .form-row{background:#fff;border:none;padding:12px;box-shadow:0 12px 32px rgba(16,24,40,0.3);}
 .hero-photo .form-row input{color:var(--ink);}
+.testimonial-section{background:var(--blue);border-radius:16px;padding:56px 28px 64px;margin-bottom:60px;}
+.testimonial-section .section-title{color:#fff;}
+.testimonial-section .section-sub{color:rgba(255,255,255,0.75);}
+.testimonial-section .testimonial-grid{margin-top:24px;margin-bottom:0;}
+.testimonial-section .testimonial-card{box-shadow:0 20px 40px -14px rgba(16,24,40,0.35);}
