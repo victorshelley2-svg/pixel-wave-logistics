@@ -244,3 +244,8 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
   .receipt-footer-meta{opacity:.6;font-size:11px !important;}
   .receipt-actions{display:none;}
 }
+.map-section{padding:22px 24px;border-top:1px solid var(--line);}
+.map-section h3{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 14px;}
+#live-map{height:280px;border-radius:8px;overflow:hidden;border:1px solid var(--line);}
+.map-status{font-family:var(--font-mono);font-size:12px;opacity:.6;margin-top:10px;}
+@media print{ .map-section{display:none;} }
