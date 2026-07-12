@@ -3,7 +3,9 @@ const router = express.Router();
 const db = require('../db');
 
 router.get('/', (req, res) => res.render('home'));
-
+router.get('/about', (req, res) => res.render('about'));
+router.get('/careers', (req, res) => res.render('careers'));
+router.get('/sustainability', (req, res) => res.render('sustainability'));
 router.get('/track', (req, res) => {
   const tn = (req.query.tn || '').trim().toUpperCase();
   let shipment = null;
