@@ -38,7 +38,7 @@ function getShipmentByTN(tn) {
 
 function createShipment(fields) {
   const data = load();
-  const now = new Date().toISOString();
+  const now = fields.timestamp || new Date().toISOString();
   const shipment = {
     id: data.nextShipmentId++,
     tracking_number: fields.tracking_number,
@@ -66,15 +66,11 @@ function createShipment(fields) {
   return shipment;
 }
 
-function addShipmentEvent(tn, { status, location, note }) {
+function addShipmentEvent(tn, { status, location, note, timestamp }) {
   const data = load();
   const shipment = data.shipments.find(s => s.tracking_number === tn);
   if (!shipment) return null;
-  const now = new Date().toISOString();
-  shipment.status = status;
-  shipment.events.push({ status, location: location || shipment.destination, note: note || '', created_at: now });
-  save(data);
-  return shipment;
+  const now = timestamp || new Date().toISOString();
 }
 
 function deleteShipment(tn) {
