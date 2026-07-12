@@ -1,4 +1,5 @@
 <%- include('partials/head', { title: tn ? tn + ' — Pixel Wave Logistics' : 'Track — Pixel Wave Logistics' }) %>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <%- include('partials/header', { active: 'track' }) %>
 
 <div class="hero">
@@ -37,6 +38,13 @@
       <div><span>Weight</span><%= shipment.weight ? shipment.weight + ' kg' : '—' %></div>
       <div><span>Est. delivery</span><%= shipment.eta || '—' %></div>
     </div>
+
+    <div class="map-section">
+      <h3>Current Location</h3>
+      <div id="live-map"></div>
+      <div id="map-status" class="map-status"></div>
+    </div>
+
     <div class="timeline">
       <h3>Shipment history</h3>
       <% events.forEach((h, i) => { %>
@@ -49,14 +57,44 @@
           </div>
         </div>
       <% }) %>
+    </div>
+
     <div class="receipt-print-footer">
       <p>Thank you for shipping with Pixel Wave Logistics.</p>
       <p class="receipt-footer-meta">Questions about this shipment? support@pixelwavelogistics.com</p>
     </div>
+
     <div class="receipt-actions">
       <button class="btn small" onclick="window.print()">Print / Save Receipt</button>
     </div>
   </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+  (function(){
+    const city = <%- JSON.stringify(events[0].location || '') %>;
+    const statusEl = document.getElementById('map-status');
+    if(!city){ statusEl.textContent = 'No location on file for this shipment yet.'; return; }
+    statusEl.textContent = 'Locating ' + city + '…';
+    fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(city))
+      .then(function(r){ return r.json(); })
+      .then(function(results){
+        if(!results || !results.length){
+          statusEl.textContent = "Couldn't pin \"" + city + "\" on the map.";
+          return;
+        }
+        const lat = parseFloat(results[0].lat);
+        const lon = parseFloat(results[0].lon);
+        statusEl.textContent = '';
+        const map = L.map('live-map').setView([lat, lon], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+        L.marker([lat, lon]).addTo(map).bindPopup(city).openPopup();
+      })
+      .catch(function(){ statusEl.textContent = 'Map failed to load.'; });
+  })();
+  </script>
 <% } %>
 
 <%- include('partials/footer') %>
