@@ -44,7 +44,8 @@ router.get('/register', (req, res) => res.render('admin/register', { created: nu
 
 router.post('/register', (req, res) => {
   const tn = genTrackingNumber();
-  db.createShipment({ ...req.body, tracking_number: tn });
+  const timestamp = req.body.event_time ? new Date(req.body.event_time).toISOString() : new Date().toISOString();
+  db.createShipment({ ...req.body, tracking_number: tn, timestamp });
   res.render('admin/register', { created: tn });
 });
 
@@ -66,8 +67,9 @@ router.post('/shipments/:tn/update', async (req, res) => {
   const existing = db.getShipmentByTN(tn);
   if (!existing) return res.redirect('/admin/shipments');
 
-  const { status, location, note } = req.body;
-  const shipment = db.addShipmentEvent(tn, { status, location, note });
+  const { status, location, note, event_time } = req.body;
+  const timestamp = event_time ? new Date(event_time).toISOString() : new Date().toISOString();
+  const shipment = db.addShipmentEvent(tn, { status, location, note, timestamp });
 
   let emailStatus = null;
   if (shipment.receiver_email) {
