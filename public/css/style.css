@@ -220,13 +220,27 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 .card-head{background:var(--surface);}
 .receipt-actions{padding:0 24px 24px;}
 .receipt-print-header{display:none;}
+.receipt-print-footer{display:none;}
 
 @media print{
+  * , *::before, *::after{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
   body *{visibility:hidden;}
   .card, .card *{visibility:visible;}
-  .card{position:absolute;top:0;left:0;width:100%;border:none;box-shadow:none;margin:0;}
-  .receipt-print-header{display:block;padding:24px 24px 0;}
-  .receipt-print-header .logo{font-size:20px;margin-bottom:4px;}
-  .receipt-print-header p{font-size:12px;opacity:.6;margin:0 0 16px;}
+  .card{position:absolute;top:0;left:0;width:100%;border:none;box-shadow:none;margin:0;border-left:none !important;}
+  .receipt-print-header{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--blue);color:#fff;padding:28px 24px;margin-bottom:4px;
+  }
+  .receipt-print-header .logo{font-size:20px;color:#fff;}
+  .receipt-print-header .logo-mark span, .receipt-print-header .logo-mark{background:#fff !important;}
+  .receipt-print-header p{font-size:11px;opacity:.85;margin:0;text-align:right;}
+  .card-head{background:var(--surface);}
+  .pill{border:1px solid rgba(0,0,0,0.1);}
+  .receipt-print-footer{
+    display:block;margin:16px 24px 0;padding:16px 0 0;border-top:2px solid var(--blue);
+  }
+  .receipt-print-footer p{margin:0 0 4px;font-size:13px;}
+  .receipt-print-footer p:first-child{font-weight:600;color:var(--blue);}
+  .receipt-footer-meta{opacity:.6;font-size:11px !important;}
   .receipt-actions{display:none;}
 }
