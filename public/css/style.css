@@ -249,3 +249,33 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 #live-map{height:280px;border-radius:8px;overflow:hidden;border:1px solid var(--line);}
 .map-status{font-family:var(--font-mono);font-size:12px;opacity:.6;margin-top:10px;}
 @media print{ .map-section{display:none;} }
+.receipt-print-parties, .receipt-print-package, .receipt-print-status, .receipt-print-payment{display:none;}
+
+@media print{
+  .meta-grid{display:none;}
+  .timeline{display:none;}
+  .receipt-print-parties{
+    display:grid !important;grid-template-columns:1fr 1fr;gap:20px;
+    padding:20px 24px;border-bottom:1px solid var(--line);
+  }
+  .receipt-print-parties h4{font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin:0 0 8px;}
+  .receipt-print-parties p{font-size:13px;margin:0 0 3px;}
+
+  .receipt-print-package{
+    display:grid !important;grid-template-columns:1fr 1fr 1fr;gap:14px;
+    padding:20px 24px;border-bottom:1px solid var(--line);font-size:13px;
+  }
+  .receipt-print-package .full{grid-column:1/-1;}
+  .receipt-print-package span{display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;opacity:.5;margin-bottom:4px;}
+
+  .receipt-print-status{
+    display:flex !important;gap:32px;padding:20px 24px;background:var(--surface);
+  }
+  .receipt-print-status span{display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;opacity:.5;margin-bottom:4px;}
+  .receipt-print-status b{font-size:15px;}
+
+  .receipt-print-payment{display:block !important;padding:16px 24px 24px;}
+  .pay-label{font-family:var(--font-mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;opacity:.5;margin:0 0 10px;}
+  .pay-icons{display:flex;gap:10px;flex-wrap:wrap;}
+  .pay-card{border:1px solid rgba(0,0,0,0.15);border-radius:4px;padding:6px 12px;font-family:var(--font-display);font-weight:700;font-size:12px;letter-spacing:.5px;}
+}
