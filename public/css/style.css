@@ -162,8 +162,9 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 .service-card h3{font-family:var(--font-display);font-size:20px;margin:0 0 8px;}
 .service-card p{font-size:14px;opacity:.65;line-height:1.5;margin:0;}
 
-.testimonial-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-bottom:60px;}
-.testimonial-card{border:1px solid var(--line);border-radius:8px;padding:24px;background:#fff;position:relative;}
+.testimonial-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-bottom:60px;margin-top:-36px;position:relative;z-index:2;}
+.testimonial-card{border:none;border-radius:10px;padding:24px;background:#fff;position:relative;box-shadow:0 20px 40px -14px rgba(16,24,40,0.20);transition:transform .2s ease, box-shadow .2s ease;}
+.testimonial-card:hover{transform:translateY(-6px);box-shadow:0 28px 48px -16px rgba(16,24,40,0.28);}
 .testimonial-card .quote-mark{font-family:var(--font-display);font-size:40px;color:var(--blue);line-height:1;opacity:.6;margin-bottom:4px;}
 .testimonial-card p.quote{font-size:14px;line-height:1.6;margin:0 0 16px;}
 .testimonial-card .author{font-family:var(--font-mono);font-size:12px;opacity:.6;}
