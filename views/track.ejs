@@ -18,7 +18,11 @@
 <% } %>
 
 <% if (shipment) { %>
-  <div class="card">
+  <div class="card status-<%= shipment.status.toLowerCase().replace(/\s+/g,'-') %>">
+    <div class="receipt-print-header">
+      <div class="logo"><span class="logo-mark"></span>PIXEL WAVE <em>LOGISTICS</em></div>
+      <p>Shipment Receipt &middot; Generated <%= new Date().toLocaleString() %></p>
+    </div>
     <div class="card-head">
       <div>
         <div class="tn"><%= shipment.tracking_number %></div>
@@ -45,6 +49,9 @@
           </div>
         </div>
       <% }) %>
+    </div>
+    <div class="receipt-actions">
+      <button class="btn small" onclick="window.print()">Print / Save Receipt</button>
     </div>
   </div>
 <% } %>
