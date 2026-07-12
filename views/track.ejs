@@ -38,7 +38,32 @@
       <div><span>Weight</span><%= shipment.weight ? shipment.weight + ' kg' : '—' %></div>
       <div><span>Est. delivery</span><%= shipment.eta || '—' %></div>
     </div>
+<div class="receipt-print-parties">
+      <div>
+        <h4>Ship From</h4>
+        <p><%= shipment.sender_name %></p>
+        <% if (shipment.sender_email) { %><p><%= shipment.sender_email %></p><% } %>
+        <p><%= shipment.origin %></p>
+      </div>
+      <div>
+        <h4>Ship To</h4>
+        <p><%= shipment.receiver_name %></p>
+        <% if (shipment.receiver_email) { %><p><%= shipment.receiver_email %></p><% } %>
+        <p><%= shipment.destination %></p>
+      </div>
+    </div>
 
+    <div class="receipt-print-package">
+      <div><span>Service</span><%= shipment.service || 'Standard' %></div>
+      <div><span>Weight</span><%= shipment.weight ? shipment.weight + ' kg' : '—' %></div>
+      <div><span>Est. Delivery</span><%= shipment.eta || '—' %></div>
+      <div class="full"><span>Package Description</span><%= shipment.notes || 'General cargo' %></div>
+    </div>
+
+    <div class="receipt-print-status">
+      <div><span>Current Status</span><b><%= shipment.status %></b></div>
+      <div><span>Current Location</span><b><%= events[0].location %></b></div>
+    </div>
     <div class="map-section">
       <h3>Current Location</h3>
       <div id="live-map"></div>
