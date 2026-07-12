@@ -209,3 +209,24 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 .menu-panel a{padding:10px 12px;border-radius:4px;font-size:14px;opacity:1;}
 .menu-panel a:hover{background:var(--surface);color:var(--blue);}
 </parameter>
+.card{border-left:4px solid var(--line);}
+.card.status-registered{border-left-color:#6B7280;}
+.card.status-picked-up{border-left-color:var(--blue);}
+.card.status-in-transit{border-left-color:var(--amber);}
+.card.status-out-for-delivery{border-left-color:#B45309;}
+.card.status-delivered{border-left-color:var(--teal);}
+.card.status-delayed{border-left-color:var(--red);}
+.card.status-exception{border-left-color:#B91C1C;}
+.card-head{background:var(--surface);}
+.receipt-actions{padding:0 24px 24px;}
+.receipt-print-header{display:none;}
+
+@media print{
+  body *{visibility:hidden;}
+  .card, .card *{visibility:visible;}
+  .card{position:absolute;top:0;left:0;width:100%;border:none;box-shadow:none;margin:0;}
+  .receipt-print-header{display:block;padding:24px 24px 0;}
+  .receipt-print-header .logo{font-size:20px;margin-bottom:4px;}
+  .receipt-print-header p{font-size:12px;opacity:.6;margin:0 0 16px;}
+  .receipt-actions{display:none;}
+}
