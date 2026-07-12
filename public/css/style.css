@@ -201,3 +201,11 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 .testimonial-section .section-sub{color:rgba(255,255,255,0.75);}
 .testimonial-section .testimonial-grid{margin-top:24px;margin-bottom:0;}
 .testimonial-section .testimonial-card{box-shadow:0 20px 40px -14px rgba(16,24,40,0.35);}
+.menu{position:relative;list-style:none;}
+.hamburger-btn{cursor:pointer;display:flex;flex-direction:column;gap:4px;padding:6px;list-style:none;}
+.hamburger-btn::-webkit-details-marker{display:none;}
+.hamburger-btn span{width:20px;height:2px;background:var(--ink);display:block;border-radius:1px;}
+.menu-panel{position:absolute;right:0;top:calc(100% + 10px);background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 16px 32px -8px rgba(16,24,40,0.18);padding:8px;min-width:170px;display:flex;flex-direction:column;z-index:30;}
+.menu-panel a{padding:10px 12px;border-radius:4px;font-size:14px;opacity:1;}
+.menu-panel a:hover{background:var(--surface);color:var(--blue);}
+</parameter>
