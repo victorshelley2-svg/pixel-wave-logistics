@@ -39,5 +39,25 @@ router.post('/contact', (req, res) => {
 
   res.render('contact', { sent: true });
 });
+router.post('/webhooks/resend-inbound', express.json(), (req, res) => {
+  if (req.query.key !== process.env.WEBHOOK_SECRET) {
+    return res.status(401).json({ error: 'unauthorized' });
+  }
 
+  const payload = req.body || {};
+  const data = payload.data || {};
+
+  const fromEmail = typeof data.from === 'string' ? data.from : (data.from && data.from.email) || 'unknown';
+  const toEmail = Array.isArray(data.to) ? (data.to[0].email || data.to[0]) : (data.to || '');
+
+  db.createMessage({
+    direction: 'inbox',
+    from_email: fromEmail,
+    to_email: toEmail,
+    subject: data.subject || '(no subject)',
+    body: data.text || data.html || '(no content)'
+  });
+
+  res.status(200).json({ received: true });
+});
 module.exports = router;
