@@ -214,7 +214,11 @@ router.post('/shipments/:tn/delete', (req, res) => {
   db.deleteShipment(req.params.tn.toUpperCase());
   res.redirect('/admin/shipments');
 });
-
+function composeEmailHtml(message) {
+  return emailShell(`
+    <p style="font-size:15px;color:#101828;line-height:1.6;white-space:pre-wrap;margin:0;">${message}</p>
+  `);
+}
 // ---- webmail ----
 router.get('/webmail', (req, res) => {
   const folder = req.query.folder === 'sent' ? 'sent' : 'inbox';
@@ -230,7 +234,18 @@ router.get('/webmail/:id', (req, res) => {
   }
   res.render('admin/webmail-message', { msg, sent: null });
 });
+router.get('/webmail/compose', (req, res) => res.render('admin/webmail-compose', { sent: null }));
 
+router.post('/webmail/compose', async (req, res) => {
+  const { to, subject, message } = req.body;
+  const from = process.env.SUPPORT_EMAIL || 'support@pixelwavelogistics.com';
+
+  const result = await sendEmail({ to, from, subject, text: message, html: composeEmailHtml(message) });
+
+  db.createMessage({ direction: 'sent', from_email: from, to_email: to, subject, body: message });
+
+  res.render('admin/webmail-compose', { sent: result.simulated ? 'simulated' : (result.ok ? 'sent' : 'failed') });
+});
 router.post('/webmail/:id/reply', async (req, res) => {
   const msg = db.getMessageById(req.params.id);
   if (!msg) return res.redirect('/admin/webmail');
