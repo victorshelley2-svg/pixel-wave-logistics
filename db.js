@@ -42,6 +42,7 @@ function createShipment(fields) {
   const shipment = {
     id: data.nextShipmentId++,
     tracking_number: fields.tracking_number,
+    reference_number: fields.reference_number || '',
     sender_name: fields.sender_name,
     sender_email: fields.sender_email || '',
     receiver_name: fields.receiver_name,
