@@ -1,0 +1,30 @@
+<%- include('../partials/head', { title: 'Compose — Pixel Wave Admin' }) %>
+<body class="admin">
+<header class="site-header"><a href="/" class="logo"><span class="logo-mark"></span>PIXEL WAVE <em>LOGISTICS</em></a></header>
+<main>
+  <%- include('nav', { active: 'webmail' }) %>
+  <a href="/admin/webmail?folder=sent" style="font-size:13px;opacity:.6;">&larr; Back to Webmail</a>
+
+  <div class="panel" style="margin-top:16px;">
+    <h2>Compose a new message</h2>
+    <p class="sub">Send a fresh email to any address — not tied to an existing thread.</p>
+    <form method="post" action="/admin/webmail/compose">
+      <div class="form-grid">
+        <div class="field full"><label>To</label><input required type="email" name="to" placeholder="customer@example.com"></div>
+        <div class="field full"><label>Subject</label><input required name="subject" placeholder="Following up on your shipment"></div>
+        <div class="field full"><label>Message</label><textarea required name="message" style="min-height:160px;" placeholder="Write your message…"></textarea></div>
+      </div>
+      <div class="form-actions"><button class="btn" type="submit">Send</button></div>
+    </form>
+
+    <% if (sent === 'simulated') { %>
+      <div class="notice simulated">Simulated (no RESEND_API_KEY configured) — logged in Sent, not actually delivered.</div>
+    <% } else if (sent === 'sent') { %>
+      <div class="notice sent">Message sent.</div>
+    <% } else if (sent === 'failed') { %>
+      <div class="notice failed">Failed to send. Check your RESEND_API_KEY.</div>
+    <% } %>
+  </div>
+</main>
+</body>
+</html>
