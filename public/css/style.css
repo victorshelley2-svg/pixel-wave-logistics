@@ -324,3 +324,18 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 .cta-banner .btn{background:#fff;color:var(--blue);}
 .cta-banner .btn:hover{background:#F4F7FC;}
 .btn-outline-white{background:transparent !important;border:1px solid rgba(255,255,255,0.5);color:#fff !important;}
+.service-card, .testimonial-card, .news-card, .faq-item, .partners-strip, .cta-banner, .section-title, .section-sub{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.reveal-visible{opacity:1 !important;transform:translateY(0) !important;}
+@media (prefers-reduced-motion:reduce){
+  .service-card, .testimonial-card, .news-card, .faq-item, .partners-strip, .cta-banner, .section-title, .section-sub{
+    opacity:1 !important;transform:none !important;transition:none !important;
+  }
+}
+
+.partner-logo{display:flex;align-items:center;gap:10px;opacity:.7;}
+.partner-mark{width:32px;height:32px;border-radius:8px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:12px;flex:none;}
+.partner-logo .pname{font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--ink);}
