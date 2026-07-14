@@ -339,3 +339,65 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 .partner-logo{display:flex;align-items:center;gap:10px;opacity:.7;}
 .partner-mark{width:32px;height:32px;border-radius:8px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:12px;flex:none;}
 .partner-logo .pname{font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--ink);}
+<style>
+/* 1. Container - Prevents entire homepage from stretching */
+.partners-strip {
+  padding: 40px 0;
+  background-color: #f9fafb; 
+  text-align: center;
+  width: 100%;
+  overflow: hidden; 
+}
+
+/* 2. Label styling */
+.partners-label {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #6b7280;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+/* 3. The Horizontal Slider Box */
+.partners-slider {
+  display: flex;
+  gap: 40px;
+  padding: 10px 24px;
+  overflow-x: auto; 
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; 
+  scroll-snap-type: x mandatory;
+}
+
+/* Hide ugly browser scrollbars */
+.partners-slider::-webkit-scrollbar { display: none; }
+.partners-slider { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* 4. Logo settings */
+.partner-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 18px;
+  white-space: nowrap; 
+  scroll-snap-align: center;
+  flex-shrink: 0; 
+}
+
+.partner-logo svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* --- BRAND COLORS --- */
+.brand-loomleaf svg { color: #059669; }         
+.brand-loomleaf .pname { color: #065f46; }       
+
+.brand-anchorsupply svg { color: #2563eb; }     
+.brand-anchorsupply .pname { color: #1e3a8a; }   
+
+.brand-northfield svg { color: #7c3aed; }        
+.brand-northfield .pname { color: #4c1d95; }     
+</style>
