@@ -30,22 +30,22 @@ main{max-width:920px;margin:0 auto;padding:0 24px 80px;}
 /* header */
 .site-header{
   display:flex;align-items:center;justify-content:space-between;
-  padding:18px 24px;border-bottom:1px solid var(--line);
-  position:sticky;top:0;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);z-index:10;
+  padding:18px 24px;border-bottom:none;
+  position:sticky;top:0;background:rgba(37,99,235,0.97);backdrop-filter:blur(8px);z-index:10;
 }
-.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:.5px;}
-.logo em{font-style:normal;opacity:.6;font-weight:600;}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:.5px;color:#fff;}
+.logo em{font-style:normal;opacity:.7;font-weight:600;}
 .logo-mark{
   width:16px;height:16px;flex:none;
   background:
-    linear-gradient(var(--blue) 0 0) 0 0/6px 6px no-repeat,
-    linear-gradient(var(--blue) 0 0) 10px 5px/6px 6px no-repeat;
+    linear-gradient(#fff 0 0) 0 0/6px 6px no-repeat,
+    linear-gradient(#fff 0 0) 10px 5px/6px 6px no-repeat;
   opacity:.95;
 }
-.site-header nav{display:flex;gap:22px;}
-.site-header nav a{font-size:14px;font-weight:500;opacity:.7;}
-.site-header nav a:hover, .site-header nav a.active{opacity:1;color:var(--blue);}
-
+.site-header nav{display:flex;gap:22px;align-items:center;}
+.site-header nav a{font-size:14px;font-weight:500;color:rgba(255,255,255,0.8);}
+.site-header nav a:hover, .site-header nav a.active{color:#fff;}
+.hamburger-btn span{background:#fff;}
 /* hero / track */
 .hero{padding:56px 0 28px;}
 .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:14px;}
