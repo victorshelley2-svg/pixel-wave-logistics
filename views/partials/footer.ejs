@@ -30,5 +30,17 @@
   </div>
   <div class="footer-bottom">2026 &copy; Pixel Wave Logistics &mdash; all rights reserved</div>
 </footer>
+<script>
+(function(){
+  var els = document.querySelectorAll('.service-card, .testimonial-card, .news-card, .faq-item, .partners-strip, .cta-banner, .section-title, .section-sub');
+  if(!('IntersectionObserver' in window)){ els.forEach(function(el){ el.classList.add('reveal-visible'); }); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){ entry.target.classList.add('reveal-visible'); io.unobserve(entry.target); }
+    });
+  }, { threshold: 0.15 });
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
 </body>
 </html>
