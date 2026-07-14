@@ -401,3 +401,6 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 .brand-northfield svg { color: #7c3aed; }        
 .brand-northfield .pname { color: #4c1d95; }     
 </style>
+.full-bleed{width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;}
+.full-bleed-inner{max-width:920px;margin:0 auto;padding:0 24px;}
+.hero-photo{border-radius:0;padding:60px 0;margin-top:0;}
