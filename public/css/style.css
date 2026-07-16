@@ -298,7 +298,7 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 }
 .partners-strip{padding:40px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:60px;}
 .partners-label{font-family:var(--font-mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;opacity:.45;text-align:center;margin:0 0 20px;}
-.partners-row{display:flex;flex-wrap:wrap;justify-content:center;gap:32px;}
+.partners-row{display:flex;gap:16px;width:max-content;margin:0 auto;padding:0 24px;}
 .partners-row span{font-family:var(--font-display);font-weight:600;font-size:16px;opacity:.4;letter-spacing:.3px;}
 
 .step-number{width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:18px;margin-bottom:16px;}
