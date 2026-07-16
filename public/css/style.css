@@ -357,7 +357,9 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 
 .partners-track {
   overflow: hidden;
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   position: relative;
   mask-image: linear-gradient(to right, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
