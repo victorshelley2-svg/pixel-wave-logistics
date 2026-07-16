@@ -424,3 +424,13 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 
 .brand-harborpoint svg    { color: #db2777; }
 .brand-harborpoint .pname { color: #9d174d; }
+.site-header .menu-panel a{color:var(--ink) !important;}
+.site-header .menu-panel a:hover{color:var(--blue) !important;}
+
+.footer-full .footer-brand .logo,
+.footer-full .footer-brand .logo em{color:var(--ink) !important;}
+.footer-full .footer-brand .logo .logo-mark{
+  background:
+    linear-gradient(var(--blue) 0 0) 0 0/6px 6px no-repeat,
+    linear-gradient(var(--blue) 0 0) 10px 5px/6px 6px no-repeat !important;
+}
