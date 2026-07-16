@@ -336,21 +336,17 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
   }
 }
 
-.partner-logo{display:flex;align-items:center;gap:10px;opacity:.7;}
-.partner-mark{width:32px;height:32px;border-radius:8px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:12px;flex:none;}
-.partner-logo .pname{font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--ink);}
-<style>
-/* 1. Container - Prevents entire homepage from stretching */
+/* ============ PARTNERS STRIP — colorful, bold, swipeable ============ */
+
 .partners-strip {
   padding: 40px 0;
-  background-color: #f9fafb; 
+  background-color: #f9fafb;
   text-align: center;
   width: 100%;
-  overflow: hidden; 
 }
 
-/* 2. Label styling */
 .partners-label {
+  font-family: var(--font-mono);
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -359,48 +355,71 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
   font-weight: 600;
 }
 
-/* 3. The Horizontal Slider Box */
-.partners-slider {
-  display: flex;
-  gap: 40px;
-  padding: 10px 24px;
-  overflow-x: auto; 
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch; 
-  scroll-snap-type: x mandatory;
+.partners-track {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 60px, black calc(100% - 60px), transparent 100%);
 }
 
-/* Hide ugly browser scrollbars */
-.partners-slider::-webkit-scrollbar { display: none; }
-.partners-slider { -ms-overflow-style: none; scrollbar-width: none; }
+.partners-row {
+  display: flex;
+  gap: 24px;
+  padding: 10px 24px;
+  width: max-content;
+  cursor: grab;
+  touch-action: pan-y;
+  animation: partners-slide 25s linear infinite;
+}
+.partners-row.dragging { animation-play-state: paused; }
+.partners-row:active { cursor: grabbing; }
 
-/* 4. Logo settings */
+@keyframes partners-slide {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
 .partner-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-weight: 700;
-  font-size: 18px;
-  white-space: nowrap; 
-  scroll-snap-align: center;
-  flex-shrink: 0; 
+  gap: 14px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px 26px;
+  box-shadow: 0 2px 10px rgba(15,23,42,0.06), 0 0 0 1px rgba(15,23,42,0.04);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.partner-logo:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(15,23,42,0.12), 0 0 0 1px rgba(15,23,42,0.04);
 }
 
 .partner-logo svg {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
 }
 
-/* --- BRAND COLORS --- */
-.brand-loomleaf svg { color: #059669; }         
-.brand-loomleaf .pname { color: #065f46; }       
+.partner-logo .pname {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+}
 
-.brand-anchorsupply svg { color: #2563eb; }     
-.brand-anchorsupply .pname { color: #1e3a8a; }   
+.brand-loomleaf svg    { color: #059669; }
+.brand-loomleaf .pname { color: #065f46; }
 
-.brand-northfield svg { color: #7c3aed; }        
-.brand-northfield .pname { color: #4c1d95; }     
-</style>
-.full-bleed{width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;}
-.full-bleed-inner{max-width:920px;margin:0 auto;padding:0 24px;}
-.hero-photo{border-radius:0;padding:60px 0;margin-top:0;}
+.brand-anchor svg      { color: #2563eb; }
+.brand-anchor .pname   { color: #1e3a8a; }
+
+.brand-northfield svg    { color: #7c3aed; }
+.brand-northfield .pname { color: #4c1d95; }
+
+.brand-cedarstone svg    { color: #ea580c; }
+.brand-cedarstone .pname { color: #9a3412; }
+
+.brand-harborpoint svg    { color: #db2777; }
+.brand-harborpoint .pname { color: #9d174d; }
