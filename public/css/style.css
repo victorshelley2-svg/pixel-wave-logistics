@@ -25,7 +25,7 @@ body{
 a{color:inherit;text-decoration:none;}
 button, input, select, textarea{font-family:inherit;}
 :focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
-main{max-width:920px;margin:0 auto;padding:0 24px 80px;}
+main{max-width:1200px;margin:0 auto;padding:0 24px 80px;}
 
 /* header */
 .site-header{
@@ -176,7 +176,7 @@ h1{font-family:var(--font-display);font-weight:700;font-size:clamp(32px,6vw,52px
 .service-photo{width:100%;height:160px;border-radius:6px;background-size:cover;background-position:center;margin-bottom:16px;border:1px solid var(--line);}
 
 .footer-full{border-top:1px solid var(--line);margin-top:40px;background:var(--surface);}
-.footer-top{max-width:920px;margin:0 auto;padding:48px 24px 32px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:32px;}
+.footer-top{max-width:1200px;margin:0 auto;padding:48px 24px 32px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:32px;}
 @media(max-width:700px){.footer-top{grid-template-columns:1fr 1fr;}}
 .footer-col h4{font-family:var(--font-mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;opacity:.5;margin:0 0 14px;}
 .footer-col a, .footer-col span.plain{display:block;font-size:14px;opacity:.75;margin-bottom:10px;}
