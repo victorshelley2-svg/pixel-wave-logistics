@@ -447,8 +447,7 @@ main{max-width:none;margin:0;padding:0 20px 80px;}
 .news-photo{width:100%;height:200px;background-size:cover;background-position:center;margin:0 0 20px;border:none;border-radius:0;}
 @media(min-width:768px){
   .news-photo{height:clamp(220px, 22vw, 340px);}
-}
-.video-band{position:relative;height:420px;overflow:hidden;margin-bottom:60px;}
+}.video-band{position:relative;height:100vh;overflow:hidden;margin-bottom:60px;background:var(--ink);}
 .video-band-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;z-index:0;}
 @media(min-width:768px){
   .video-band{background:var(--ink);}
