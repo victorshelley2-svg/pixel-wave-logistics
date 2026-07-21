@@ -451,3 +451,4 @@ main{max-width:none;margin:0;padding:0 20px 80px;}
 .handoff-block{max-width:480px;margin:0 60px 60px 0;}
 .handoff-photo{width:100%;height:auto;display:block;border-radius:10px;border:1px solid var(--line);}
 .handoff-caption{font-family:var(--font-display);font-weight:600;font-size:17px;margin:14px 0 0;color:var(--ink);}
+html, body{overflow-x:hidden;}
